@@ -10,4 +10,6 @@ add_executable(cpu-api_ex3 cpu-api/solutions/code/ex3.c)
 add_executable(cpu-api_ex4 cpu-api/solutions/code/ex4.c)
 add_executable(cpu-api_ex7 cpu-api/solutions/code/ex7.c)
 add_executable(cpu-api_ex8 cpu-api/solutions/code/ex8.c)
-add_executable(SysCallMeasurement cpu-mechanisms-measurement/SysCallMeasurement.c)
+
+add_executable(cpu-mechanisms-measurement-syscall cpu-mechanisms-measurement/SysCallMeasurement.c)
+add_executable(cpu-mechanisms-measurement-context-switch cpu-mechanisms-measurement/ContextSwitchMeasurement.c)
