@@ -1,0 +1,92 @@
+ex 1.
+
+./mlfq.py -l 0,15,0:0,25,0 -n 2
+
+queue 1 : job 0 for 10, go lower priority
+queue 1 : job 1 for 10, go lower priority
+queue 0 : job 0 for 5, finish
+queue 0 : job 1 for 10, go lower priority but can't so stay
+queue 0 : job 1 for 5, finish
+
+./mlfq.py -l 0,15,0:0,25,0 -n -B 20
+
+queue 1 : job 0 for 10, go lower priority
+queue 1 : job 1 for 10, go lower priority
+20 ms passed all jobs go to top priority queue
+queue 1 : job 0 for 5, finish
+queue 1 : job 1 for 10, go lower priority
+queue 0 : job 1 for 5, finish
+
+
+ex 2.
+
+Figure 8.2: Long-running Job Over Time
+
+./mlfq.py -l 0,200,0 -n 3 -a 2
+
+
+Figure 8.3: Along Came An Interactive Job: Two Examples
+
+left)
+
+./mlfq.py -l 0,180,0:100,20,0 
+
+
+right)
+
+./mlfq.py -l 0,180,0:50,20,1
+
+
+Figure 8.4: Without (Left) and With (Right) Priority Boost
+
+left)
+
+./mlfq.py -l 0,130,0:100,15,1:101,15,1 -i 1
+
+
+right)
+
+./mlfq.py -l 0,130,0:100,15,1:101,15,1 -i 1 -B 100
+
+
+Figure 8.5: Without (Left) and With (Right) Gaming Tolerance
+
+left)
+
+./mlfq.py -l 0,300,0:100,200,5 -S -i 1
+
+right)
+
+./mlfq.py -l 0,300,0:100,200,5 -i 1
+
+
+Figure 8.6: Lower Priority, Longer Quanta
+
+./mlfq.py -Q 10,20,100
+
+
+ex 3.
+
+./mlfq.py -q 1
+
+
+ex 4.
+
+./mlfq.py -l 0,200,0:100,100,9 -S -i 1
+
+
+ex 5.
+
+Every 200ms.
+
+5% is 5/100 is 1/20.
+
+Quantum length is 10ms, and we want this 10ms to be 5% of CPU.
+So every 20 quantum lengths our job should run, so 20 * 10ms = 200ms.
+
+
+ex 6.
+
+It is generaly a good practice to schedule jobs which issue frequently io to the
+front of the queue, so thatio divice get used as much as possible while simultinusly
+cpu is used by other jobs.
