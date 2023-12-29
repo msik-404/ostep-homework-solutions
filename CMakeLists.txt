@@ -13,3 +13,4 @@ add_executable(cpu-api_ex8 cpu-api/solutions/code/ex8.c)
 
 add_executable(cpu-mechanisms-measurement-syscall cpu-mechanisms-measurement/SysCallMeasurement.c)
 add_executable(cpu-mechanisms-measurement-context-switch cpu-mechanisms-measurement/ContextSwitchMeasurement.c)
+add_executable(vm-intro-memory-user vm-intro/solutions/code/memory-user.c)
