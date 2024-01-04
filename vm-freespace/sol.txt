@@ -1,0 +1,108 @@
+ex 1.
+
+ptr[0] = Alloc(3) returned 1000
+List [1003, 97]
+
+Free(ptr[0])
+returned 0
+List [1000, 3], [1003, 97]
+
+ptr[1] = Alloc(5) returned 1003
+List [1000, 3], [1008, 92]
+
+Free(ptr[1])
+returned 0
+List [1000, 3], [1003, 5], [1008, 92]
+
+ptr[2] = Alloc(8) returned 1008
+List [1000, 3], [1003, 5], [1016, 84]
+
+Free(ptr[2])
+returned 0
+List [1000, 3], [1003, 5], [1008, 8], [1016, 84]
+
+ptr[3] = Alloc(8) returned 1008
+List [1000, 3], [1003, 5], [1016, 84]
+
+Free(ptr[3])
+returned 0
+List [1000, 3], [1003, 5], [1008, 8], [1016, 84]
+
+ptr[4] = Alloc(2) returned 1000
+List [1002, 1], [1003, 5], [1008, 8], [1016, 84]
+
+ptr[5] = Alloc(7) returned 1008
+List [1002, 1], [1003, 5], [1015, 1], [1016, 84]
+
+
+ex 2.
+
+ptr[0] = Alloc(3) returned 1000
+List [1003, 97]
+
+Free(ptr[0])
+returned 0
+List [1000, 3], [1003, 97]
+
+ptr[1] = Alloc(5) returned 1003
+List [1000, 3], [1008, 92]
+
+Free(ptr[1])
+returned 0
+List [1000, 3], [1003, 5], [1008, 92]
+
+ptr[2] = Alloc(8) returned 1008
+List [1000, 3], [1003, 5], [1016, 84]
+
+Free(ptr[2])
+returned 0
+List [1000, 3], [1003, 5], [1008, 8], [1016, 84]
+
+ptr[3] = Alloc(8) returned 1016
+List [1000, 3], [1003, 5], [1008, 8], [1024, 76]
+
+Free(ptr[3])
+returned 0
+List [1000, 3], [1003, 5], [1008, 8], [1016, 8], [1024, 76]
+
+ptr[4] = Alloc(2) returned 1024
+List [1000, 3], [1003, 5], [1008, 8], [1016, 8], [1026, 74]
+
+ptr[5] = Alloc(7) returned 1026
+List [1000, 3], [1003, 5], [1008, 8], [1016, 8], [1033, 67]
+
+
+ex 3.
+
+Sometimes you don't have to search the entier list.
+
+
+ex 4.
+
+SIZESORT- makes WORST run faster, because worst fits will be listed first. FIRST 
+will also run faster, because more ofthen than not, gratest nodes will fulfil 
+requests.
+
+SIZESORT+ will do the oposite. WORST and FIRST will run longer. FIRST will behave
+as BEST.
+
+ADDRSORT I guess makes coalescing easier.
+
+
+ex 5.
+
+Larger allocation requests fail and list becomes quite long. Coalescing prevents
+this.
+
+ex 6.
+
+near 100 - fast most allocations fail.
+
+near 0 - most allocations won't fail for a very long time.
+
+50 and coalescing enabled only big allocations fail after some time.
+
+ex 7.
+
+choose WORST and all the time make 1 byte requests. After fragmenting all 
+memory every request grater than 1 will fail as long as coalescing is disabled.
