@@ -1,0 +1,110 @@
+ex 1.
+
+1) page table grows. It's size is equal to address size divided by page size.
+
+2) page table shrinks. Because page szie grows.
+
+ex 2.
+
+page size = 1kb = 1024 bits -> bit range 0 - 1023 so we need 10 bits
+address space = 16kb -> 16kb / 1kb = 16 virtual pages in range 0 - 15 so we need 4 bits
+
+1) all addresses are invalid.
+2)
+
+VA=11206 -> vpn=10, offset=966 bytes
+vpn=10 -> pfn=19
+PA = 19*1024 + 966 = 20422
+
+other addresses are invalid.
+
+3)
+
+13189 -> 12, 901
+12 -> 15
+15*1024 + 901 = 16261
+
+8989 -> 8, 797
+8 -> invalid
+
+230 -> 0, 230
+0 -> 24
+24*1024 + 230 = 24806
+
+11791 -> 11, 527
+11 -> invalid
+
+6534 -> 6, 390
+6 -> 29
+29*1024 + 390 = 30086
+
+4)
+
+11791 -> 11, 527
+11 -> 19
+19*1024 + 527 = 19983
+
+6534 -> 6, 390
+10 -> 31
+31 * 1024 + 390 = 32134
+
+13514 -> 13, 202
+13 -> 27
+27*1024 + 202 = 27850
+
+10947 -> 10, 707
+10 -> 11
+11*1024 + 707 = 3779
+
+18 -> 0, 18
+0 -> 24
+24*1024 + 18 = 24594
+
+ex 3.
+
+First is unrealistic because it is soo small.
+
+page size = 8 -> 3 bits
+address space = 32 -> page amount = 4 -> 2 bits
+
+14 -> 1, 6
+1 -> 97
+97*8+6 = 782
+189175677
+
+second is unrealistically small, but proportion between address space and physical
+memory size looks fine.
+
+page size = 8kb -> 13 bits
+address space = 32kb -> page amount = 4 -> 2 bits
+
+
+third
+page size = 1m -> 20 bits -> mask and 0000 0000 1111 1111 1111 1111 1111 = 1048575
+address space = 256m -> page amount = 256 -> 8 bits -> right shifrt 20
+
+50901581 -> 48, 569933
+48 -> 502
+502*1m + 569933 = 502 * 1024*2 + 569933 = 526955085
+
+69423590 -> 66, 217574
+66 -> invalid
+
+50247291 -> 47, 964219
+47 -> 169
+169*1024*1024 + 964219 = 178173563 
+
+189175677 -> 180, 431997
+180 -> invalid
+
+230477492 -> 219, 839348
+219 -> 498
+498 * 1024*1024 + 839348 = 523030196
+
+Third is unrealistic because, given two processes which would fully make use of
+their virtual memory, all of physical memory would be occupied just for two
+processes. 256m are quite possible to be used.
+
+ex 4.
+
+Error: physical memory size must be GREATER than address space size (for this simulation)
