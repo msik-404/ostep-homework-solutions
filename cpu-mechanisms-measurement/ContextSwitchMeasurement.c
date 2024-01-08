@@ -2,20 +2,32 @@
 // Created by mateusz on 12/23/23.
 //
 
+#define _GNU_SOURCE
+
 #include <stdio.h>
 #include <stdlib.h>
+#include <time.h>
 #include <unistd.h>
-#include <sys/time.h>
+#include <sched.h>
 
 #define ITER_AMOUNT 10'000'000
 
-long getTimeDiff(const struct timeval* start, const struct timeval* end)
+long getTimeDiff(const struct timespec* start, const struct timespec* end)
 {
-    return (end->tv_sec - start->tv_sec) * 1000000 + end->tv_usec - start->tv_usec;
+    return (end->tv_sec - start->tv_sec) * 1e9 + end->tv_nsec - start->tv_nsec;
 }
 
 int main(void)
 {
+    cpu_set_t set;
+    CPU_ZERO(&set);
+    CPU_SET(sched_getcpu(), &set);
+    if (sched_setaffinity(0, sizeof(cpu_set_t), &set) == -1)
+    {
+        fprintf(stderr, "sched_setaffinity failed.\n");
+        exit(1);
+    }
+
     close(STDIN_FILENO);
 
     constexpr char message[2] = {'a', '\0'};
@@ -54,10 +66,9 @@ int main(void)
         close(secondPipefd[1]);
         close(STDERR_FILENO);
 
-        struct timeval firstTime;
-        struct timeval secondTime;
+        struct timespec firstTime, secondTime;
 
-        gettimeofday(&firstTime, NULL);
+        clock_gettime(CLOCK_MONOTONIC, &firstTime);
 
         for (int i = 0; i < ITER_AMOUNT; ++i)
         {
@@ -65,13 +76,13 @@ int main(void)
             read(secondPipefd[0], buf, 1);
         }
 
-        gettimeofday(&secondTime, NULL);
+        clock_gettime(CLOCK_MONOTONIC, &secondTime);
 
         const long diff = getTimeDiff(&firstTime, &secondTime);
 
         const double avg = (double)diff / ITER_AMOUNT;
 
-        printf("\nSTATS\ntime avg: %f microsec\ntime diff: %lu microsec\niter amount: %d\n\n", avg, diff, ITER_AMOUNT);
+        printf("\nSTATS\ntime avg: %f nanosec\ntime diff: %lu nanosec\niter amount: %d\n\n", avg, diff, ITER_AMOUNT);
     }
 
     return 0;
