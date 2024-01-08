@@ -24,3 +24,6 @@ add_executable(vm-api-ex6 vm-api/solutions/code/ex6.c)
 add_executable(vm-api-ex7 vm-api/solutions/code/ex7.c)
 add_executable(vm-api-vector vm-api/solutions/code/vector.c)
 target_link_libraries(vm-api-vector m)
+
+add_executable(vm-tlbs-tlb vm-tlbs/code/tlb.c)
+target_compile_options(vm-tlbs-tlb PRIVATE -O0)

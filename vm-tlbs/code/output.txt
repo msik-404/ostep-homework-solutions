@@ -1,0 +1,13 @@
+cpu: 7 pages: 1 trails: 100000 nanosec: 3
+cpu: 7 pages: 2 trails: 100000 nanosec: 1
+cpu: 7 pages: 4 trails: 100000 nanosec: 1
+cpu: 7 pages: 8 trails: 100000 nanosec: 1
+cpu: 7 pages: 16 trails: 100000 nanosec: 9
+cpu: 7 pages: 32 trails: 100000 nanosec: 9
+cpu: 7 pages: 64 trails: 100000 nanosec: 9
+cpu: 7 pages: 128 trails: 100000 nanosec: 11
+cpu: 7 pages: 256 trails: 100000 nanosec: 10
+cpu: 7 pages: 512 trails: 100000 nanosec: 10
+cpu: 7 pages: 1024 trails: 100000 nanosec: 10
+cpu: 7 pages: 2048 trails: 100000 nanosec: 10
+cpu: 7 pages: 4096 trails: 100000 nanosec: 12
