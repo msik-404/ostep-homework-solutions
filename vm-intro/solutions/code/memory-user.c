@@ -4,14 +4,14 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <time.h>
 #include <unistd.h>
-#include <sys/time.h>
 
 #define MUTLI 1'000'000
 
-long getTimeDiff(const struct timeval* start, const struct timeval* end)
+long getTimeDiff(const struct timespec* start, const struct timespec* end)
 {
-    return (end->tv_sec - start->tv_sec) * 1000000 + end->tv_usec - start->tv_usec;
+    return (end->tv_sec - start->tv_sec) * 1e9 + end->tv_nsec - start->tv_nsec;
 }
 
 int main(int argc, char* argv[])
@@ -42,19 +42,18 @@ int main(int argc, char* argv[])
         exit(1);
     }
 
-    struct timeval startTime;
-    struct timeval endTime;
-    gettimeofday(&startTime, NULL);
+    struct timespec startTime, endTime;
+    clock_gettime(CLOCK_MONOTONIC, &startTime);
     endTime.tv_sec = startTime.tv_sec + time;
-    endTime.tv_usec = startTime.tv_usec;
+    endTime.tv_nsec = startTime.tv_nsec;
 
     while (getTimeDiff(&startTime, &endTime) > 0)
     {
         for (int i = 0; i < megaMemSize; ++i)
         {
-            array[i] = (char) i;
+            array[i] = (char)i;
         }
-        gettimeofday(&startTime, NULL);
+        clock_gettime(CLOCK_MONOTONIC, &startTime);
     }
 
     free(array);
