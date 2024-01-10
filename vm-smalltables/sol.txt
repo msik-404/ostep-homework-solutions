@@ -1,0 +1,131 @@
+-s 0
+
+PDBR: 108
+
+TOP LEVEL PD:
+
+0 83
+1 fe
+2 e0
+3 da
+4 7f
+5 d4
+6 7f
+7 eb
+8 be
+9 9e
+10 d5
+11 ad
+12 e4
+13 ac
+14 90
+15 d6
+16 92
+17 d8
+18 c1
+19 f8
+20 9f
+21 e1
+22 ed
+23 e9
+24 a1
+25 e8
+26 c7
+27 c2
+28 a9
+29 d1
+30 db
+
+VA -> PDE, PTE, offset
+
+# Transfer 611c to binary.
+# to get PDE, right shift 10
+# to get PTE, right shift 5 and AND mask 11111
+# to get OFFSET, AND mask 11111
+# thus:
+
+VA -> PDE, PTE, OFFSET
+611c -> 24, 8, 28 = 1 1100
+
+# Access page directory page which is pointed by PDBR.
+PD[24] = a1 = 1010 0001 
+first bit is 1 == is valid 
+pfn = 010 0001 = 33
+
+# Access Page Table at index from page directory page
+PD at 33 pfn:
+
+0 7f
+1 7f
+2 7f
+3 7f
+4 7f
+5 7f
+6 7f
+7 7f
+8 b5 * PTE = 8
+9 7f
+10 9d
+11 7f
+12 7f
+13 7f
+14 7f
+15 7f
+16 7f
+17 7f
+18 7f
+19 7f
+20 7f
+21 7f
+22 7f
+23 7f
+24 7f
+25 7f
+26 f6
+27 b1
+28 7f
+29 7f
+30 7f
+
+b5 = 1011 0101 = 181 - is valid
+final pfn = 011 0101 = 0x35 = 53
+
+# Our final address is concatenation of final pfn(-) and offset(+) from VA
+0110 1011 1100 = 1724 = 0x6bc
+---- ---+ ++++
+
+# Access final page to find the value
+
+PD at 53
+
+0 0f
+1 0c
+2 18
+3 09
+4 0e
+5 12
+6 1c
+7 0f
+8 08
+9 17
+10 13
+11 07
+12 1c
+13 1e
+14 19
+15 1b
+16 09
+17 16
+18 1b
+19 15
+20 0e
+21 03
+22 0d
+23 12
+24 1c
+25 1d
+26 0e
+27 1a
+28 08 * OFFSET = 28
+29 18
+30 11
