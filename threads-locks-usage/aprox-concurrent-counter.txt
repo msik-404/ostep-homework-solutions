@@ -1,0 +1,16 @@
+sec: 1 nsec: 678354979  threads: 1 work per thread 100000000 total work: 100000000
+sec: 3 nsec: 454352796  threads: 2 work per thread 50000000 total work: 100000000
+sec: 6 nsec: 586303676  threads: 3 work per thread 33333333 total work: 100000000
+sec: 5 nsec: 424871704  threads: 4 work per thread 25000000 total work: 100000000
+sec: 5 nsec: 130186950  threads: 5 work per thread 20000000 total work: 100000000
+sec: 4 nsec: 400049637  threads: 6 work per thread 16666666 total work: 100000000
+sec: 3 nsec: 889604973  threads: 7 work per thread 14285714 total work: 100000000
+sec: 3 nsec: 508240876  threads: 8 work per thread 12500000 total work: 100000000
+sec: 3 nsec: 401427918  threads: 9 work per thread 11111111 total work: 100000000
+sec: 3 nsec: 171998150  threads: 10 work per thread 10000000 total work: 100000000
+sec: 3 nsec: 122610539  threads: 11 work per thread 9090909 total work: 100000000
+sec: 2 nsec: 894409710  threads: 12 work per thread 8333333 total work: 100000000
+sec: 2 nsec: 797966181  threads: 13 work per thread 7692307 total work: 100000000
+sec: 2 nsec: 703408171  threads: 14 work per thread 7142857 total work: 100000000
+sec: 2 nsec: 616749030  threads: 15 work per thread 6666666 total work: 100000000
+sec: 2 nsec: 565216459  threads: 16 work per thread 6250000 total work: 100000000

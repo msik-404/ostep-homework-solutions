@@ -27,3 +27,7 @@ target_link_libraries(vm-api-vector m)
 
 add_executable(vm-tlbs-tlb vm-tlbs/code/tlb.c)
 target_compile_options(vm-tlbs-tlb PRIVATE -O0)
+add_executable(threads-locks-usage-basic-concurrent-counter threads-locks-usage/BasicConcurrentCounter.c)
+add_executable(threads-locks-usage-aprox-concurrent-counter threads-locks-usage/ApproxConcurrentCounter.c)
+add_executable(threads-locks-usage-basic-concurrent-list threads-locks-usage/BasicConcurrentList.c)
+add_executable(threads-locks-usage-hand-over-hand-list threads-locks-usage/HandOverHandList.c)
