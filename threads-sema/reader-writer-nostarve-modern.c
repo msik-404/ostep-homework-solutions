@@ -9,47 +9,63 @@
 
 typedef struct __rwlock_t
 {
-    int reader_count;
-    sem_t counter_mutex;
+    int is_readers;
+    int out_readers;
+    bool writer_waiting;
     sem_t write_lock;
+    sem_t in_door;
+    sem_t out_door;
 } rwlock_t;
 
 
 void rwlock_init(rwlock_t* rw)
 {
-    rw->reader_count = 0;
-    sem_init(&rw->counter_mutex, 0, 1);
-    sem_init(&rw->write_lock, 0, 1);
+    rw->is_readers = 0;
+    rw->out_readers = 0;
+    rw->writer_waiting = false;
+    sem_init(&rw->write_lock, 0, 0);
+    sem_init(&rw->in_door, 0, 1);
+    sem_init(&rw->out_door, 0, 1);
 }
 
 void rwlock_acquire_readlock(rwlock_t* rw)
 {
-    sem_wait(&rw->counter_mutex);
-    if (++rw->reader_count == 1)
-    {
-        sem_wait(&rw->write_lock);
-    }
-    sem_post(&rw->counter_mutex);
+    sem_wait(&rw->in_door);
+    ++rw->is_readers;
+    sem_post(&rw->in_door);
 }
 
 void rwlock_release_readlock(rwlock_t* rw)
 {
-    sem_wait(&rw->counter_mutex);
-    if (--rw->reader_count == 0)
+    sem_wait(&rw->out_door);
+    ++rw->out_readers;
+    if (rw->writer_waiting && rw->out_readers == rw->is_readers)
     {
         sem_post(&rw->write_lock);
     }
-    sem_post(&rw->counter_mutex);
+    sem_post(&rw->out_door);
 }
 
 void rwlock_acquire_writelock(rwlock_t* rw)
 {
-    sem_wait(&rw->write_lock);
+    sem_wait(&rw->in_door);
+    sem_wait(&rw->out_door);
+    if (rw->is_readers == rw->out_readers)
+    {
+        sem_post(&rw->out_door);
+    }
+    else
+    {
+        rw->writer_waiting = true;
+        sem_post(&rw->out_door);
+        sem_wait(&rw->write_lock);
+        rw->writer_waiting = false;
+    }
 }
 
 void rwlock_release_writelock(rwlock_t* rw)
 {
-    sem_post(&rw->write_lock);
+    sem_post(&rw->in_door);
 }
 
 //
