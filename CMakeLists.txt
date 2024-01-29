@@ -31,3 +31,16 @@ add_executable(threads-locks-usage-basic-concurrent-counter threads-locks-usage/
 add_executable(threads-locks-usage-aprox-concurrent-counter threads-locks-usage/ApproxConcurrentCounter.c)
 add_executable(threads-locks-usage-basic-concurrent-list threads-locks-usage/BasicConcurrentList.c)
 add_executable(threads-locks-usage-hand-over-hand-list threads-locks-usage/HandOverHandList.c)
+
+add_library(socket-lib SHARED
+        threads-events/solutions/code/common.c
+        threads-events/solutions/code/common.h
+        threads-events/solutions/code/err.h
+)
+
+add_executable(threads-events-server threads-events/solutions/code/server.c
+        socket-lib
+    )
+add_executable(threads-events-client threads-events/solutions/code/client.c
+        socket-lib
+)
