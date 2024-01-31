@@ -82,6 +82,19 @@ int main(const int argc, char* argv[])
                 printf("Accepted connection from %s:%d\n", client_ip, client_port);
             } else if (events[i].events & EPOLLIN) // Read from client.
             {
+            	/*
+            	 * TODO: Create some global hashmap fd -> buffer to not block on read if not enough data came.
+            	 *
+            	 * Each connected user has his struct with uint32_t bytes to read and buffer for the data to collect.
+            	 * Once the data is collected response should be generated.
+            	 *
+            	 * I guess once the user's buffer is filled, write event should be placed in the epoll, and server should
+            	 * try to write the response. In the mean time if client tries to write more data it should be collected
+            	 * in addiotnal buffer. This generated additional how many additional buffers we need.
+            	 *
+            	 * Maybe we should just remove EPOLLIN event and just keep EPOLLOUT and events for closing connection.
+            	 * I would have to do some more research if this sollution is possible.
+				 */
             	uint32_t bytes_to_read;
             	ssize_t count = read(i, &bytes_to_read, sizeof(uint32_t));
             	if (count != 4)
