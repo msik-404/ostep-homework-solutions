@@ -2,7 +2,7 @@
 // Created by mateusz on 1/29/24.
 //
 
-#include <string.h>
+#include <cstring>
 #include <unistd.h>
 #include <netinet/in.h>
 #include <sys/epoll.h>

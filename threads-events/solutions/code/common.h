@@ -5,8 +5,8 @@
 #ifndef COMMON_H
 #define COMMON_H
 
-#include <stddef.h>
-#include <stdint.h>
+#include <cstddef>
+#include <cstdint>
 
 uint16_t read_port(const char* string);
 
@@ -18,12 +18,12 @@ void bind_socket(int socket_fd, uint16_t port);
 
 void start_listening(int socket_fd, size_t queue_length);
 
-uint16_t get_port(const struct sockaddr_in* address);
+uint16_t get_port(const sockaddr_in* address);
 
-char* get_ip(const struct sockaddr_in* address);
+char* get_ip(const sockaddr_in* address);
 
-int accept_connection(int socket_fd, const  struct sockaddr_in* client_address);
+int accept_connection(int socket_fd, sockaddr_in* client_address);
 
-void connect_socket(int socket_fd, const struct sockaddr_in* address);
+void connect_socket(int socket_fd, const sockaddr_in* address);
 
 #endif //COMMON_H
