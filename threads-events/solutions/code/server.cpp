@@ -94,6 +94,9 @@ int main(const int argc, char* argv[])
             	 *
             	 * Maybe we should just remove EPOLLIN event and just keep EPOLLOUT and events for closing connection.
             	 * I would have to do some more research if this sollution is possible.
+            	 *
+            	 * I can use EPOLL_CTL_MOD. Once all the data is read change event to EPOLLOUT and try to write response.
+            	 * Once finished switch again to EPOLLIN.
 				 */
             	uint32_t bytes_to_read;
             	ssize_t count = read(i, &bytes_to_read, sizeof(uint32_t));
