@@ -24,6 +24,6 @@ char* get_ip(const sockaddr_in* address);
 
 int accept_connection(int socket_fd, sockaddr_in* client_address);
 
-void connect_socket(int socket_fd, const sockaddr_in* address);
+void connect_socket(int socket_fd, sockaddr_in* address);
 
 #endif //COMMON_H
