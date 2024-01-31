@@ -8,16 +8,11 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+#include "vector.h"
+
 #define GROWTH_FACTOR 1.5
 
-typedef struct
-{
-    int* arr;
-    size_t end;
-    size_t size;
-} Vector;
-
-void init(Vector* vector, const size_t size)
+void vec_init(vector_t* vector, const size_t size)
 {
     if (size == 0)
     {
@@ -34,7 +29,7 @@ void init(Vector* vector, const size_t size)
     vector->end = 0;
 }
 
-void vecFree(Vector* vector)
+void vec_free(vector_t* vector)
 {
     free(vector->arr);
     vector->arr = NULL;
@@ -42,7 +37,7 @@ void vecFree(Vector* vector)
     vector->end = 0;
 }
 
-void append(Vector* vector, const int value)
+void append(vector_t* vector, const int value)
 {
     if (vector->end == vector->size)
     {
@@ -63,7 +58,7 @@ void append(Vector* vector, const int value)
     vector->arr[vector->end++] = value;
 }
 
-int pop(Vector* vector)
+int pop(vector_t* vector)
 {
     if (vector->end == 0)
     {
@@ -73,7 +68,7 @@ int pop(Vector* vector)
     return vector->arr[--vector->end];
 }
 
-void set(const Vector* vector, const size_t idx, const int value)
+void set(const vector_t* vector, const size_t idx, const int value)
 {
     if (idx > vector->end)
     {
@@ -83,7 +78,7 @@ void set(const Vector* vector, const size_t idx, const int value)
     vector->arr[idx] = value;
 }
 
-int get(const Vector* vector, const size_t idx)
+int get(const vector_t* vector, const size_t idx)
 {
     if (idx > vector->end)
     {
@@ -95,9 +90,9 @@ int get(const Vector* vector, const size_t idx)
 
 int main(void)
 {
-    Vector vector;
+    vector_t vector;
 
-    init(&vector, 2);
+    vec_init(&vector, 2);
 
     append(&vector, 10);
     append(&vector, 11);
@@ -121,9 +116,9 @@ int main(void)
 
     assert(2 == vector.size);
 
-    vecFree(&vector);
+    vec_free(&vector);
 
-    init(&vector, 1);
+    vec_init(&vector, 1);
     assert(1 == vector.size);
 
     for (int i = 0; i < 10; ++i)
@@ -134,7 +129,7 @@ int main(void)
 
     assert(12 == vector.size);
 
-    vecFree(&vector);
+    vec_free(&vector);
 
     return 0;
 }

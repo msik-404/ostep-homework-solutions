@@ -56,7 +56,7 @@
 
 
 // Print an error message and exit with an error.
-inline static void fatal(const char *fmt, ...) {
+static void fatal(const char *fmt, ...) {
     va_list fmt_args;
 
     fprintf(stderr, "Error: ");

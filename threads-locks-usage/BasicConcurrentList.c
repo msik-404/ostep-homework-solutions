@@ -19,7 +19,7 @@ typedef struct _list
     Node* head;
 } List;
 
-void init(List* list)
+void vec_init(List* list)
 {
     pthread_mutex_init(&list->mutex, NULL);
     list->head = NULL;
@@ -126,7 +126,7 @@ int main(const int argc, char* argv[])
     const int workPerThread = totalWork / threadAmount;
 
     List list;
-    init(&list);
+    vec_init(&list);
 
     Args* args = malloc(threadAmount * sizeof(Args));
 

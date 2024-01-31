@@ -3,6 +3,7 @@ cmake_minimum_required(VERSION 3.27)
 project(ostep-homework-solutions)
 
 set(CMAKE_C_STANDARD 23)
+set(CMAKE_CXX_STANDARD 23)
 
 add_executable(cpu-api_ex1 cpu-api/solutions/code/ex1.c)
 add_executable(cpu-api_ex2 cpu-api/solutions/code/ex2.c)
@@ -22,7 +23,7 @@ add_executable(vm-api-ex4 vm-api/solutions/code/ex4.c)
 add_executable(vm-api-ex5 vm-api/solutions/code/ex5.c)
 add_executable(vm-api-ex6 vm-api/solutions/code/ex6.c)
 add_executable(vm-api-ex7 vm-api/solutions/code/ex7.c)
-add_executable(vm-api-vector vm-api/solutions/code/vector.c)
+add_executable(vm-api-vector vm-api/solutions/code/vector.c vm-api/solutions/code/vector.h)
 target_link_libraries(vm-api-vector m)
 
 add_executable(vm-tlbs-tlb vm-tlbs/code/tlb.c)
@@ -33,14 +34,11 @@ add_executable(threads-locks-usage-basic-concurrent-list threads-locks-usage/Bas
 add_executable(threads-locks-usage-hand-over-hand-list threads-locks-usage/HandOverHandList.c)
 
 add_library(socket-lib SHARED
-        threads-events/solutions/code/common.c
+        threads-events/solutions/code/common.cpp
         threads-events/solutions/code/common.h
         threads-events/solutions/code/err.h
 )
-
-add_executable(threads-events-server threads-events/solutions/code/server.c
-        socket-lib
-    )
-add_executable(threads-events-client threads-events/solutions/code/client.c
-        socket-lib
-)
+add_executable(threads-events-server threads-events/solutions/code/server.cpp)
+target_link_libraries(threads-events-server PRIVATE socket-lib)
+add_executable(threads-events-client threads-events/solutions/code/client.cpp)
+target_link_libraries(threads-events-client PRIVATE socket-lib)
