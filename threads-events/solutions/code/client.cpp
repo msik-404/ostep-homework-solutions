@@ -15,7 +15,7 @@
 
 char shared_buffer[BUFFER_SIZE];
 
-void clean(const int socket_fd, char* buffer)
+void clean(const int socket_fd)
 {
     // Graceful disconnection. - FIN
     CHECK_ERRNO(shutdown(socket_fd, SHUT_WR));
@@ -32,7 +32,7 @@ int main(const int argc, char* argv[])
 
     const char* host = argv[1];
     const uint16_t port = read_port(argv[2]);
-    const struct sockaddr_in server_address = get_address(host, port);
+    sockaddr_in server_address = get_address(host, port);
 
     const int socket_fd = open_socket();
 
@@ -74,12 +74,12 @@ int main(const int argc, char* argv[])
         count = write(socket_fd, buffer, count + HEADER_SIZE);
         if (count < 0)
         {
-            clean(socket_fd, buffer);
+            clean(socket_fd);
             PRINT_ERRNO();
         }
     }
 
-    clean(socket_fd, buffer);
+    clean(socket_fd);
 
     return 0;
 }
