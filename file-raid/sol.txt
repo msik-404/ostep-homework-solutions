@@ -1,0 +1,62 @@
+ex 1.
+
+❯ ./raid.py -L 0 -n 2 -R 20 -s 2 -c
+ARG blockSize 4096
+ARG seed 2
+ARG numDisks 4
+ARG chunkSize 4k
+ARG numRequests 2
+ARG reqSize 4k
+ARG workload rand
+ARG writeFrac 0
+ARG randRange 20
+ARG level 0
+ARG raid5 LS
+ARG reverse False
+ARG timing False
+
+19 1
+LOGICAL READ from addr:19 size:4096
+  read  [disk 3, offset 4]  
+
+1 1
+LOGICAL READ from addr:1 size:4096
+  read  [disk 1, offset 0]  
+
+disk = x % numDisks
+offset = x // numDisks
+
+
+❯ ./raid.py -L 1 -n 2 -R 20 -s 2 -D 6 -s 3
+ARG blockSize 4096
+ARG seed 3
+ARG numDisks 6
+ARG chunkSize 4k
+ARG numRequests 2
+ARG reqSize 4k
+ARG workload rand
+ARG writeFrac 0
+ARG randRange 20
+ARG level 1
+ARG raid5 LS
+ARG reverse False
+ARG timing False
+
+4 1
+LOGICAL READ from addr:4 size:4096
+  read [disk 2, offset 1]
+
+7 1
+LOGICAL READ from addr:7 size:4096
+  read [disk 3, offset 2]
+
+
+disk = 2(x % (numDisks // 2)) if x % 2 == 0 else 2(x % (numDisks // 2)) + 1
+offset = x // (numDisks // 2)
+
+00 11 22|0
+33 44 55|1
+66 77 88|2
+99 ...  |3
+--------
+01 23 45
