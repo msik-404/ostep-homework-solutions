@@ -1,0 +1,150 @@
+ex 1. 
+
+./vsfs.py -s 17
+
+mkdir("/u")
+
+creat("/a")
+
+unlink("/a")
+
+mkdir("/z")
+
+mkdir("/s")
+
+creat("/z/x")
+
+link("/z/x", "/u/b")
+
+unlink("/u/b")
+
+fd = open("/z/x", O_WRONLY); write(fd, "v"); close(fd);
+
+creat("/u/b")
+
+
+./vsfs.py -s 18
+
+mkdir("/f")
+
+creat("/s")
+
+mkdir("/h")
+
+fd = open("/s", O_WRONLY); write(fd, "f"); close(fd);
+
+creat("/f/o")
+
+creat("/c")
+
+unlink("/c")
+
+fd = open("/f/o", O_WRONLY); write(fd, "q"); close(fd);
+
+unlink("/s")
+
+unlink("/f/o")
+
+
+
+ex 2.
+
+./vsfs.py -s 21 -r
+ARG seed 21
+ARG numInodes 8
+ARG numData 8
+ARG numRequests 10
+ARG reverse True
+ARG printFinal False
+
+Initial state
+
+inode bitmap  10000000
+inodes       [d a:0 r:2][][][][][][][]
+data bitmap   10000000
+data         [(.,0) (..,0)][][][][][][][]
+
+mkdir("/o")
+
+inode bitmap  11000000
+inodes       [d a:0 r:2][d a:1 r:2][][][][][][]
+data bitmap   11000000
+data         [(.,0) (..,0) (o,1)][(.,1) (..,0)][][][][][][]
+
+creat("/b")
+
+inode bitmap  11100000
+inodes       [d a:0 r:2][d a:1 r:2][f a:-1 r:1][][][][][]
+data bitmap   11000000
+data         [(.,0) (..,0) (o,1) (b,2)][(.,1) (..,0)][][][][][][]
+
+creat("o/q")
+
+inode bitmap  11110000
+inodes       [d a:0 r:2][d a:1 r:2][f a:-1 r:1][f a:-1 r:1][][][][]
+data bitmap   11000000
+data         [(.,0) (..,0) (o,1) (b,2)][(.,1) (..,0) (q,3)][][][][][][]
+
+
+fd=open("/b", O_WRONLY|O_APPEND); write(fd, buf, BLOCKSIZE); close(fd);
+
+inode bitmap  11110000
+inodes       [d a:0 r:2][d a:1 r:2][f a:2 r:1][f a:-1 r:1][][][][]
+data bitmap   11100000
+data         [(.,0) (..,0) (o,1) (b,2)][(.,1) (..,0) (q,3)][b][][][][][]
+
+fd=open("/o/q", O_WRONLY|O_APPEND); write(fd, buf, BLOCKSIZE); close(fd);
+
+inode bitmap  11110000
+inodes       [d a:0 r:2][d a:1 r:2][f a:2 r:1][f a:3 r:1][][][][]
+data bitmap   11110000
+data         [(.,0) (..,0) (o,1) (b,2)][(.,1) (..,0) (q,3)][b][q][][][][]
+
+creat("/o/j");
+
+inode bitmap  11111000
+inodes       [d a:0 r:2][d a:1 r:2][f a:2 r:1][f a:3 r:1][f a:-1 r:1][][][]
+data bitmap   11110000
+data         [(.,0) (..,0) (o,1) (b,2)][(.,1) (..,0) (q,3) (j,4)][b][q][][][][]
+
+unlink("/b");
+
+inode bitmap  11011000
+inodes       [d a:0 r:2][d a:1 r:2][][f a:3 r:1][f a:-1 r:1][][][]
+data bitmap   11010000
+data         [(.,0) (..,0) (o,1)][(.,1) (..,0) (q,3) (j,4)][][q][][][][]
+
+fd=open("/o/j", O_WRONLY|O_APPEND); write(fd, buf, BLOCKSIZE); close(fd);
+
+inode bitmap  11011000
+inodes       [d a:0 r:2][d a:1 r:2][][f a:3 r:1][f a:2 r:1][][][]
+data bitmap   11110000
+data         [(.,0) (..,0) (o,1)][(.,1) (..,0) (q,3) (j,4)][j][q][][][][]
+
+creat("/o/x");
+
+inode bitmap  11111000
+inodes       [d a:0 r:2][d a:1 r:2][f a:-1 r:1][f a:3 r:1][f a:2 r:1][][][]
+data bitmap   11110000
+data         [(.,0) (..,0) (o,1)][(.,1) (..,0) (q,3) (j,4) (x,2)][j][q][][][][]
+
+mkdir("/o/t");
+
+inode bitmap  11111100
+inodes       [d a:0 r:2][d a:1 r:2][f a:-1 r:1][f a:3 r:1][f a:2 r:1][d a:5 r:2][][]
+data bitmap   11111000
+data         [(.,0) (..,0) (o,1)][(.,1) (..,0) (q,3) (j,4) (x,2) (t,5)][j][q][(.,5) (..,1)][][][]
+
+
+
+ex 3.
+
+You can create at most two directories and 6 empty files wherever you want.
+
+You can create 6 empty files and one non empty file in the root direcotry.
+
+ex 4.
+
+You can create small amount of files and directories. But assuming that there
+is more data blocks than inodes all of the files can be non empty and all of
+inodes can be directories.
